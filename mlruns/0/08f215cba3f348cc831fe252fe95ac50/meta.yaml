@@ -1,0 +1,15 @@
+artifact_uri: file:///home/anesbenmerzoug/personaldir/mlflow_model_versioning/mlruns/0/08f215cba3f348cc831fe252fe95ac50/artifacts
+end_time: 1593453642200
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 08f215cba3f348cc831fe252fe95ac50
+run_uuid: 08f215cba3f348cc831fe252fe95ac50
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1593453642151
+status: 4
+tags: []
+user_id: anesbenmerzoug

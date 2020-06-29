@@ -1,0 +1,5 @@
+mlflow==1.9.1
+scikit-learn==0.23.1
+numpy==1.19.0
+mlxtend==0.17.2
+click==7.1.2
