@@ -12,7 +12,7 @@ from mlxtend.evaluate import mcnemar_table
 from mlxtend.evaluate import mcnemar
 
 
-# We fix the random seed to make the experiment repeatable
+# We pin the random seed to make the experiment repeatable
 random_seed = 16
 np.random.seed(random_seed)
 
@@ -74,11 +74,14 @@ def main(
         accuracy = accuracy_score(y_test, y_pred)
         mlflow.log_metric("accuracy", accuracy)
         mlflow.sklearn.log_model(
-            lr_model, artifact_path="model", registered_model_name="Random Forest"
+            rf_model, artifact_path="model", registered_model_name="Random Forest"
         )
     mlflow_client.transition_model_version_stage(
         name="Random Forest", version=1, stage="Staging"
     )
+
+    del lr_model
+    del rf_model
 
     # We finally load both models from MLFlow
     # and compare them using the McNemar test
@@ -103,15 +106,28 @@ def main(
         # We then archive the logistic regression model
         # and move the random forest model to the Production stage
         print(f"p-value {p_value} smaller than significance level {significance}")
-        print(
-            "Archiving logistic regression model and moving random forest model to production"
-        )
-        mlflow_client.transition_model_version_stage(
-            name="Logistic Regression", version=1, stage="Archived",
-        )
-        mlflow_client.transition_model_version_stage(
-            name="Random Forest", version=1, stage="Production",
-        )
+        accuracy_lr = accuracy_score(y_test, y_pred_lr)
+        accuracy_rf = accuracy_score(y_test, y_pred_rf)
+        if accuracy_lr < accuracy_rf:
+            print(
+                f"Random Forest model's accuracy, {accuracy_rf}, is greater than "
+                f"the Logistic Regression model's accuracy, {accuracy_lr}"
+            )
+            print(
+                "Archiving logistic regression model and moving random forest model to production"
+            )
+            mlflow_client.transition_model_version_stage(
+                name="Logistic Regression", version=1, stage="Archived",
+            )
+            mlflow_client.transition_model_version_stage(
+                name="Random Forest", version=1, stage="Production",
+            )
+        else:
+            print(
+                f"Random Forest model's accuracy, {accuracy_rf}, is less than or equal to "
+                f"the Logistic Regression model's accuracy, {accuracy_lr}"
+            )
+            print("Keeping logistic regression model in production")
     else:
         print(f"p-value {p_value} greater than significance level {significance}")
         print("Keeping logistic regression model in production")

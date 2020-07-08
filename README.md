@@ -1,4 +1,4 @@
-This repository contains code for [this blog post]() 
+This repository contains code for [this blog post](https://anesbenmerzoug.github.io/posts/mlflow-model-versioning) 
 
 # Usage
 
