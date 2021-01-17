@@ -1,4 +1,4 @@
-This repository contains code for [this blog post](https://anesbenmerzoug.github.io/posts/mlflow-model-versioning) 
+This repository contains code for [this blog post](https://anesbenmerzoug.github.io/posts/model-versioning-with-mlflow/)
 
 # Usage
 
